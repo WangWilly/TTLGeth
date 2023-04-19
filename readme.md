@@ -2,18 +2,27 @@
 
 Base on the template `.env.template`, fill up all variable and create a file `.env` for all crediential information. Have fun and join the virtual world. 🥷
 
+📖 Instruction:
+- ✅: Completed goal
+- 👉: Short-term goal
+- 📝: Long-term goal
+- 📖: Some relative note
+- ❌: Abandoned or failed
+
+
+📖 Easy run:
 ```
 go run *.go
 ```
 
-- [Connect ethereum node using Infura](https://blog.logrocket.com/ethereum-development-using-go-ethereum/#connecting-ethereum-node-infura-go)
-  - https://trufflesuite.com/docs/truffle/how-to/contracts/run-migrations/
-  - https://betterprogramming.pub/how-to-write-complex-truffle-migrations-86d4b85d7783
-- [Get ERC-20 balance](https://levelup.gitconnected.com/how-to-get-balance-of-an-ethereum-smart-contract-91ce4e7b4c4e)
-- [Transfer ERC-20 token](https://goethereumbook.org/en/transfer-tokens/)
-- TBD
-  - https://www.honeybadger.io/blog/golang-go-package-management/
-  - https://github.com/liyue201/erc20-go/blob/main/erc20/token.go
+📖 Reviews:
+- ✅ [Connect ethereum node using Infura](https://blog.logrocket.com/ethereum-development-using-go-ethereum/#connecting-ethereum-node-infura-go)
+  - 📖 [Contract migration1](https://trufflesuite.com/docs/truffle/how-to/contracts/run-migrations/)
+  - 📖 [Contract migration2](https://betterprogramming.pub/how-to-write-complex-truffle-migrations-86d4b85d7783)
+- ✅ [Get ERC-20 balance](https://levelup.gitconnected.com/how-to-get-balance-of-an-ethereum-smart-contract-91ce4e7b4c4e)
+- ✅ [Transfer ERC-20 token](https://goethereumbook.org/en/transfer-tokens/)
+- 👉 https://www.honeybadger.io/blog/golang-go-package-management/
+- 📝 https://github.com/liyue201/erc20-go/blob/main/erc20/token.go
 
 
 ## Achievement
@@ -33,34 +42,36 @@ go run *.go
 
 ## 🌶️ GO cheat sheet
 
+📌 General usage
 - `len()`: `len(v Type) int`
 ```Go
 // [string]
 s := "Hello"
 fmt.Println(len(s)) // 👉 5
-
 // [array]
 a := [3]int{1, 2, 3}
 fmt.Println(len(a)) // 👉 3
-
 // [map]
 m := map[string]int{"one": 1, "two": 2}
 fmt.Println(len(m)) // 👉 2
 ```
 
+📌 Interaction
+- `fmt.Print`
+- `fmt.Println`
+- `log.Fatal`
+
+📌 Handle String 
 - `strings.TrimLeft`: remove left string.
   - `strings.TrimLeft(resp[2:], "0")`
 
-- `hexutil.Encode()`: encode byte into a string with leading '0x'
-- `hexutil.DecodeBig()`: decode string with leading '0x' into a `big.Int`
+📌 Handle Web3 Address
+- `hexutil.Encode`: encode byte into a string with leading '0x'
+- `hexutil.DecodeBig`: decode string with leading '0x' into a `big.Int`
 - `common.HexToAddress`: transfrom hex string into byte address
 
-- `fmt.Print`
-- `fmt.Println`
-- `log.Fatal` 
-
-- reference
-  - https://blog.wu-boy.com/2019/04/how-to-load-env-file-in-go/
+📖 Reference
+- https://blog.wu-boy.com/2019/04/how-to-load-env-file-in-go/
 
 
 ## 🤖 Robot summary
