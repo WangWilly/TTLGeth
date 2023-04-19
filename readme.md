@@ -1,18 +1,19 @@
 # Time to Learn Geth
 
-Have fun and join the virtual world. 🥷
+Base on the template `.env.template`, fill up all variable and create a file `.env` for all crediential information. Have fun and join the virtual world. 🥷
+
 ```
 go run helloGeth.go
 ```
 
-- TBD
-  - https://www.honeybadger.io/blog/golang-go-package-management/
-  - https://github.com/liyue201/erc20-go/blob/main/erc20/token.go
 - [Connect ethereum node using Infura](https://blog.logrocket.com/ethereum-development-using-go-ethereum/#connecting-ethereum-node-infura-go)
   - https://trufflesuite.com/docs/truffle/how-to/contracts/run-migrations/
   - https://betterprogramming.pub/how-to-write-complex-truffle-migrations-86d4b85d7783
 - [Get ERC-20 balance](https://levelup.gitconnected.com/how-to-get-balance-of-an-ethereum-smart-contract-91ce4e7b4c4e)
 - [Transfer ERC-20 token](https://goethereumbook.org/en/transfer-tokens/)
+- TBD
+  - https://www.honeybadger.io/blog/golang-go-package-management/
+  - https://github.com/liyue201/erc20-go/blob/main/erc20/token.go
 
 
 ## Achievement
