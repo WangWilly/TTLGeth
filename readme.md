@@ -3,7 +3,7 @@
 Base on the template `.env.template`, fill up all variable and create a file `.env` for all crediential information. Have fun and join the virtual world. 🥷
 
 ```
-go run helloGeth.go
+go run *.go
 ```
 
 - [Connect ethereum node using Infura](https://blog.logrocket.com/ethereum-development-using-go-ethereum/#connecting-ethereum-node-infura-go)
