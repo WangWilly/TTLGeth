@@ -2,11 +2,14 @@
 
 Base on the template `.env.template`, fill up all variable and create a file `.env` for all crediential information. Have fun and join the virtual world. 🥷
 
+
 📖 Instruction:
 - ✅: Completed goal
 - 👉: Short-term goal
 - 📝: Long-term goal
-- 📖: Some relative note
+- 📖: Some relative note (📌: highlight)
+- 🤔: Not sure the credit
+- 🔜: Haven't completed but browsed
 - ❌: Abandoned or failed
 
 
@@ -21,9 +24,14 @@ go run *.go
   - 📖 [Contract migration2](https://betterprogramming.pub/how-to-write-complex-truffle-migrations-86d4b85d7783)
 - ✅ [Get ERC-20 balance](https://levelup.gitconnected.com/how-to-get-balance-of-an-ethereum-smart-contract-91ce4e7b4c4e)
 - ✅ [Transfer ERC-20 token](https://goethereumbook.org/en/transfer-tokens/)
-- 👉 https://www.honeybadger.io/blog/golang-go-package-management/
+- 👉 [Develop Go with binding of contract](https://goethereumbook.org/en/smart-contract-load/)
+- 👉 [Manage private key](https://goethereumbook.org/en/keystore/)
+- 🔜 https://www.honeybadger.io/blog/golang-go-package-management/
 - 📝 https://github.com/liyue201/erc20-go/blob/main/erc20/token.go
-
+- 🤔 https://medium.com/nerd-for-tech/smart-contract-with-golang-d208c92848a9
+  - https://github.com/02amanag/SmartContractWithGolang/blob/main/cmd/main.go
+  - https://github.com/02amanag/SmartContractWithGolang/blob/main/api/MySmartContract.go
+  - 📌 https://github.com/labstack/echo
 
 ## Achievement
 - 🙋‍♂️ Protagonists
@@ -75,9 +83,75 @@ fmt.Println(len(m)) // 👉 2
 
 
 ## 🤖 Robot summary
+Quick accession of network result.
 
-### Why Ethereum mainet would not be confused with testnet?
-Ethereum mainnet and testnet have different **network IDs** and **chain IDs** that distinguish them from each other. 📌: "For example, the Ethereum mainnet network ID is 1, while the other most commonly used testnets have network IDs of 3, 4, and 42 for Ropsten, Rinkeby, and Kovan, respectively." Network ID and chain ID are parameters that are used by nodes to identify which network they belong to and which transactions they should validate. Therefore, Ethereum mainnet would not be confused with testnet by nodes or clients that use these parameters correctly.
+### 🤔 Is there a web3 package in Go?
+I found some web search results that might be helpful.
+
+According to the first result¹, **there is a web3 package in Go that is hosted on GitHub and provides various functions and types for interacting with web3 blockchains**. You can use web3 to create and send transactions, query the network and contract state, generate code from ABI files, and more. You can import web3 in your Go code and use its methods.
+
+According to the second result², there is another web3 package in Go that is also hosted on GitHub and provides Ethereum Golang API, JSON-RPC client, and smart contract transaction API. You can use web3 to interact with an Ethereum node using JSON RPC, deploy and call smart contracts, and more. You can install web3 using go get or download the binary from GitHub.
+
+According to the third result³, there is yet another web3 package in Go that is hosted on GitHub and provides a wrapper for Ethereum's web3.js for use with gopherjs. You can use web3 to access the same functionality as web3.js in your Go code, such as sending transactions, querying the state of the network, and accessing smart contracts. You can install web3 using go get or download the source code from GitHub.
+
+I hope this helps you with your query.😊
+
+Source: Conversation with Bing, 4/20/2023(1) web3 package - github.com/gochain/web3 - Go Packages. https://pkg.go.dev/github.com/gochain/web3 Accessed 4/20/2023.
+(2) chenzhijie/go-web3: Ethereum Golang API, JSON-RPC client, Smart contract transaction API. - Github. https://github.com/chenzhijie/go-web3 Accessed 4/20/2023.
+(3) web3 package - github.com/jaynagpaul/go-web3 - Go Packages. https://pkg.go.dev/github.com/jaynagpaul/go-web3 Accessed 4/20/2023.
+
+### 🤔 How to obatin Smart contract events?
+I found some web search results that might be helpful.
+
+Smart contract events are signals that smart contracts emit when something relevant happens within them based on their code. **For example, a smart contract may emit an event when a token is transferred, a state variable is changed, or an error occurs.** Smart contract events can be used to notify developers and software systems that something meaningful has happened, and **to enable communication between smart contracts and dapps¹²**.
+
+**To obtain smart contract events, you need to listen to them using a web3 library that can interact with the blockchain.** **One such library is ethers.js, which provides methods for connecting to a provider, getting a contract instance, and subscribing to contract events.** You can also filter events by topics or arguments, and access the event data and logs³.
+
+I hope this helps you. If you need more details, you can check out the web search results below.
+
+¹: Logging data from smart contracts with events | ethereum.org
+²: Blockchain Explained: What are smart contract events and logs?
+³: How to Listen to Smart Contract Events Using Ethers.js
+
+Source: Conversation with Bing, 4/20/2023(1) How to Listen to Smart Contract Events Using Ethers.js. https://bing.com/search?q=smart+contract+events Accessed 4/20/2023.
+(2) What are Polling Cycles in Shardeum? : r/shardeum - Reddit. https://www.reddit.com/r/shardeum/comments/12rfapk/what_are_polling_cycles_in_shardeum/ Accessed 4/20/2023.
+(3) Logging data from smart contracts with events | ethereum.org. https://ethereum.org/en/developers/tutorials/logging-events-smart-contracts/ Accessed 4/20/2023.
+(4) How to Listen to Smart Contract Events Using Ethers.js. https://moralis.io/how-to-listen-to-smart-contract-events-using-ethers-js/ Accessed 4/20/2023.
+(5) Web3 Syncing – How to Sync Smart Contract Web3 Events. https://moralis.io/web3-syncing-how-to-sync-smart-contract-web3-events/ Accessed 4/20/2023.
+(6) Blockchain Explained: What are smart contract events and logs?. https://medium.com/web3labs/blockchain-explained-what-are-smart-contract-events-and-logs-bd44f1e99b61 Accessed 4/20/2023.
+
+### 📖 How to use JSON RPC in Ethereum?
+I found some web search results that might be helpful.
+
+According to the first result¹, **JSON RPC is a protocol that allows you to interact with an Ethereum node using HTTP, WebSocket, or IPC.** You can use JSON RPC to send requests and receive responses from the node, such as getting the balance of an account, sending a transaction, or subscribing to events. **You can use various libraries or tools to make JSON RPC calls, such as web3.js, curl, or Postman.**
+
+According to the second result², **JSON RPC is a way to communicate with an Ethereum node and perform actions on the network, such as staking on the Goerli testnet.** You can use JSON RPC to create and send transactions, query the state of the network, and access smart contracts. You can use abigen to generate a Go file that binds your smart contract and use Geth to connect with the node.
+
+According to the third result³, 📌 **JSON RPC is a method to access data from an Ethereum node and decode it into a human-readable format. You can use JSON RPC to get information about blocks, transactions, receipts, logs, and events.** You can also use JSON RPC to execute smart contract functions and monitor the network status.
+
+I hope this helps you with your query.😊
+
+Source: Conversation with Bing, 4/20/2023(1) How to Stake on the Goerli ETH Testnet (Ethereum). https://docs.blockdaemon.com/docs/how-to-stake-on-the-goerli-eth-testnet-ethereum Accessed 4/20/2023.
+(2) OKTC docs | User guide | Developer docs | OKX. https://www.okx.com/en-in/oktc/docs/dev/quick-start/join-oktc-testnet Accessed 4/20/2023.
+(3) Decoding Decentralization. An Ethereum Blockchain Data Primer… | by Alexander Sack | Coinmonks | Apr, 2023 - Medium. https://medium.com/coinmonks/decoding-decentralization-f3af30068e75 Accessed 4/20/2023.
+
+### 🤔 How etherscan obtain the history of a contract?
+I found some web search results that might be helpful.
+
+According to the first result¹, etherscan does not store all the events and transaction history, but rather indexes them using a custom backend that connects to an Ethereum node and fetches transactions using **JSON RPC**. **Etherscan also uses a separate service to track internal transactions that are not part of the blockchain.**
+
+According to the second result², you can use go-ethereum to explore all transactions for a given account by using the eth_getBlockByNumber JSON RPC method and filtering by the account address. You can also use the **web3.js library to make it easier to interact with the Ethereum node**.
+
+According to the third result³, you can find a question and answer site for Ethereum enthusiasts where you can ask or answer questions related to Ethereum and smart contracts.
+
+I hope this helps you with your query.😊
+
+Source: Conversation with Bing, 4/20/2023(1) Does Etherscan store all the events and transaction history?. https://ethereum.stackexchange.com/questions/52104/does-etherscan-store-all-the-events-and-transaction-history Accessed 4/20/2023.
+(2) How To Tell If An NFT Is Real: A Quick Guide For Savvy Collectors. https://www.forbes.com/sites/williamanderson/2023/04/13/how-to-tell-if-an-nft-is-real-a-concise-guide-for-savvy-collectors/ Accessed 4/20/2023.
+(3) How to explore all transactions for a given account?. https://ethereum.stackexchange.com/questions/8547/how-to-explore-all-transactions-for-a-given-account Accessed 4/20/2023.
+
+### 📖 Why Ethereum mainet would not be confused with testnet?
+Ethereum mainnet and testnet have different **network IDs** and **chain IDs** that distinguish them from each other. 📌 **For example, the Ethereum mainnet network ID is 1, while the other most commonly used testnets have network IDs of 3, 4, and 42 for Ropsten, Rinkeby, and Kovan, respectively.** Network ID and chain ID are parameters that are used by nodes to identify which network they belong to and which transactions they should validate. Therefore, Ethereum mainnet would not be confused with testnet by nodes or clients that use these parameters correctly.
 
 Source: Conversation with Bing, 4/12/2023(1) Networks | ethereum.org. https://ethereum.org/en/developers/docs/networks/ Accessed 4/12/2023.
 (2) Comparison of the different TestNets - Ethereum Stack Exchange. https://ethereum.stackexchange.com/questions/27048/comparison-of-the-different-testnets Accessed 4/12/2023.
@@ -97,3 +171,38 @@ Source: Conversation with Bing, 4/11/2023(1) go - How to covert a []byte object 
 (3) go - Save []byte with AQL? - Stack Overflow. https://stackoverflow.com/questions/66769768/save-byte-with-aql Accessed 4/11/2023.
 (4) Save byte[,,] in ScriptableObject - Unity Answers. https://answers.unity.com/questions/817868/save-byte-in-scriptableobject.html Accessed 4/11/2023.
 
+### ❌ How to track a smart contract using Golang?
+However, I found some web search results that might be helpful.
+
+One possible way to track smart contracts using Golang is to create Go bindings for the specific type of contract. Go bindings are generated from the Application Binary Interface (ABI) of the smart contract, which describes how to call its functions and what kind of data you get back. **You can use the abigen tool, which is part of go-ethereum, to generate Go bindings from an ABI JSON file or a Solidity source file².**
+
+Another possible way to track smart contracts using Golang is to use a framework like Truffle, which can compile and deploy smart contracts and generate ABI files for them. You can then use abigen to create Go bindings from the ABI files and interact with the smart contracts through Golang API¹.
+
+A third possible way to track smart contracts using Golang is to use online tools like remix.ethereum.org or Etherscan ABI API to compile and get the ABI of a smart contract. You can then use abigen to create Go bindings from the ABI and interact with the smart contract through Golang API²³.
+
+I hope this helps you. If you need more details, you can check out the web search results below.
+
+¹: Smart Contract with Golang. Interacting with smart contracts… | by Aman Agarwal | Nerd For Tech | Medium
+²: Creating Go Bindings for Ethereum Smart Contracts · Chris Hager
+³: GitHub - zupzup/smart-contracts-with-go: A simple example of how to deploy and interact with ETH smart contracts using Go
+
+Source: Conversation with Bing, 4/20/2023(1) Creating Go Bindings for Ethereum Smart Contracts. https://www.metachris.com/2021/05/creating-go-bindings-for-ethereum-smart-contracts/ Accessed 4/20/2023.
+(2) Smart Contract with Golang. Interacting with smart contracts… | by Aman Agarwal | Nerd For Tech | Medium. https://medium.com/nerd-for-tech/smart-contract-with-golang-d208c92848a9 Accessed 4/20/2023.
+(3) GitHub - zupzup/smart-contracts-with-go: A simple example of how to deploy and interact with ETH smart contracts using Go. https://github.com/zupzup/smart-contracts-with-go Accessed 4/20/2023.
+
+## 🤖 Further robot summary
+
+### How do I use web3.js?
+I found some web search results that might be helpful.
+
+According to the first result¹, web3.js is a JavaScript library that allows you to interact with an Ethereum node using JSON RPC. You can use web3.js to send transactions, query the state of the network, and access smart contracts. You can install web3.js using npm or yarn and use it in your JavaScript code.
+
+According to the second result², web3 is a command line tool and a Golang package that allows you to interact with web3 enabled blockchains, such as GoChain and Ethereum. You can use web3 to get block and transaction details, transfer tokens, deploy and call smart contracts, and more. You can install web3 using go get or download the binary from GitHub.
+
+According to the third result³, web3 is a Golang package that provides various functions and types for interacting with web3 blockchains. You can use web3 to create and send transactions, query the network and contract state, generate code from ABI files, and more. You can import web3 in your Golang code and use its methods.
+
+I hope this helps you with your query.😊
+
+Source: Conversation with Bing, 4/20/2023(1) Go Tutorial - W3School. https://www.w3schools.com/go/index.php Accessed 4/20/2023.
+(2) GitHub - gochain/web3: A CLI tool to interact with web3 blockchains - Ethereum, GoChain, etc. https://github.com/gochain/web3 Accessed 4/20/2023.
+(3) web3 package - github.com/gochain/web3 - Go Packages. https://pkg.go.dev/github.com/gochain/web3 Accessed 4/20/2023.
