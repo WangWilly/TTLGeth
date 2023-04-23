@@ -24,14 +24,12 @@ go run *.go
   - 📖 [Contract migration2](https://betterprogramming.pub/how-to-write-complex-truffle-migrations-86d4b85d7783)
 - ✅ [Get ERC-20 balance](https://levelup.gitconnected.com/how-to-get-balance-of-an-ethereum-smart-contract-91ce4e7b4c4e)
 - ✅ [Transfer ERC-20 token](https://goethereumbook.org/en/transfer-tokens/)
-- 👉 [Develop Go with binding of contract](https://goethereumbook.org/en/smart-contract-load/)
+- ✅ [Develop Go with binding of contract](https://goethereumbook.org/en/smart-contract-load/)
+  - https://medium.com/nerd-for-tech/smart-contract-with-golang-d208c92848a9
+  - https://github.com/02amanag/SmartContractWithGolang/blob/main/cmd/main.go
 - 👉 [Manage private key](https://goethereumbook.org/en/keystore/)
 - 🔜 https://www.honeybadger.io/blog/golang-go-package-management/
-- 📝 https://github.com/liyue201/erc20-go/blob/main/erc20/token.go
-- 🤔 https://medium.com/nerd-for-tech/smart-contract-with-golang-d208c92848a9
-  - https://github.com/02amanag/SmartContractWithGolang/blob/main/cmd/main.go
-  - https://github.com/02amanag/SmartContractWithGolang/blob/main/api/MySmartContract.go
-  - 📌 https://github.com/labstack/echo
+- 📝 https://github.com/labstack/echo
 
 ## Achievement
 - 🙋‍♂️ Protagonists
@@ -46,9 +44,13 @@ go run *.go
   - [❌](https://sepolia.etherscan.io/tx/0x2105c498bf22a718ec2f0e62205e49e367e2fdad51141ceb66cbdd80ad894970) Fail to transfer WWKF token. (error: transfer excessive amounts of WWKF)
   - [✅](https://sepolia.etherscan.io/tx/0xf26f5deefe13c60eb419e97485ba2d783190bae804d04bc6ff952f30f2d5849f) Complete transfering WWKF token.
   - [✅](https://sepolia.etherscan.io/tx/0x0f313aa1a67826a6d8519043d12e83a60861bbffbee264a4ea93e063b1bff8aa) Complete transfering WWKF token.
-
+  - [✅](https://sepolia.etherscan.io/tx/0x5952cd7f5a5af01882214b170f7289e272fa8da19c75e6bc1ff1eb978066eabe) Complete transfering WWKF token.
 
 ## 🌶️ GO cheat sheet
+
+📌 **Goroutine**
+- https://golangbot.com/channels/
+- https://blog.wu-boy.com/2020/05/understant-golang-context-in-10-minutes/
 
 📌 General usage
 - `len()`: `len(v Type) int`
@@ -156,6 +158,21 @@ Ethereum mainnet and testnet have different **network IDs** and **chain IDs** th
 Source: Conversation with Bing, 4/12/2023(1) Networks | ethereum.org. https://ethereum.org/en/developers/docs/networks/ Accessed 4/12/2023.
 (2) Comparison of the different TestNets - Ethereum Stack Exchange. https://ethereum.stackexchange.com/questions/27048/comparison-of-the-different-testnets Accessed 4/12/2023.
 (3) Testnet Vs Mainnet in Blockchain - A Complete Guide | Shardeum. https://shardeum.org/blog/testnet-vs-mainnet/ Accessed 4/12/2023.
+
+### 📖 What's the meaning of a starsign in Golang?
+**A starsign (or asterisk) is a symbol used in Go to indicate pointers or dereferencing.** A **pointer** is a variable that stores the memory address of another variable. **Dereferencing** is the process of accessing the value stored at that memory address². 📌 **For example, if x is a pointer to an integer variable y, then *x is the value of y.**
+
+Source: Conversation with Bing, 4/20/2023(1) What does the asterisk do in "Go"? - Stack Overflow. https://stackoverflow.com/questions/3552626/what-does-the-asterisk-do-in-go Accessed 4/20/2023.
+(2) strings package - strings - Go Packages. https://pkg.go.dev/strings Accessed 4/20/2023.
+(3) Go StartsWith(str string) - Stack Overflow. https://stackoverflow.com/questions/12667327/go-startswithstr-string Accessed 4/20/2023.
+
+### 📖 What's the meaning of Panic in Go?
+According to web search results, **panic in Go is a way of handling unexpected or exceptional situations that cause the program to crash**. It is similar to an exception in other languages, but it also **terminates the normal execution flow and prints the error message and stack trace**. You can use the panic() function to deliberately trigger a panic, or it can happen automatically when some specific situation arises, such as an out-of-bounds array access. 📌 **You can also use defer and recover to handle panics gracefully and prevent the program from crashing.** ¹²³⁴
+
+Source: Conversation with Bing, 4/20/2023(1) Panic in Golang - GeeksforGeeks. https://www.geeksforgeeks.org/panic-in-golang/ Accessed 4/20/2023.
+(2) Handling Panics in Go | DigitalOcean. https://www.digitalocean.com/community/tutorials/handling-panics-in-go Accessed 4/20/2023.
+(3) Golang Panic | How does Panic Work in Go Language with Examples - EduCBA. https://www.educba.com/golang-panic/ Accessed 4/20/2023.
+(4) Golang panic handing [capture, defer, recover, log]. https://www.golinuxcloud.com/golang-panic/ Accessed 4/20/2023.
 
 ### ❌ How to save byte object in Go?
 One way to save a byte object in Go is to use the ioutil.WriteFile function from the standard library¹. This function takes a file name, a byte slice, and a permission mode as arguments and writes the byte slice to the file. You can find an example of how to use this function in this article¹.

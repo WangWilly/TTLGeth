@@ -6,6 +6,7 @@ import (
 	"log"
 	"math/big"
 	"os"
+	"time"
 
 	"github.com/ethereum/go-ethereum/common"
 	"github.com/ethereum/go-ethereum/common/hexutil"
@@ -31,6 +32,7 @@ var (
 	WWKF_CONTRACT_ADDR = "0x03378DAa43739f2361FE67175aD6bF2666309748"
 	BUILT_WWKF_PATH    = "./contracts/willywangkaaFirstContract.json"
 	W3NET_URL          = "https://" + NET_BRANCH_NAME + ".infura.io/v3/" + INFURA_PROJECT_ID
+	W3WSS_URL          = "wss://" + NET_BRANCH_NAME + ".infura.io/ws/v3/" + INFURA_PROJECT_ID
 )
 
 // Ethereum network: mainnet, sepolia
@@ -39,6 +41,7 @@ var (
 	ctx                   = context.Background()
 	client, dialErr       = ethclient.DialContext(ctx, W3NET_URL)
 	instance, contractErr = wwkf.NewWwkf(common.HexToAddress(WWKF_CONTRACT_ADDR), client)
+	wssClient, wssDialErr = ethclient.DialContext(ctx, W3WSS_URL)
 )
 
 /*
@@ -127,6 +130,57 @@ func transferEtherWithAmount(pkFrom string, addrTo string, amountInWei int64) (b
 } // 📌
 
 /*
+- ref1: https://golangbot.com/channels/
+
+- ref2: https://blog.wu-boy.com/2020/05/understant-golang-context-in-10-minutes/
+*/
+func waitForTxCompletion(txStr string, retStatus chan<- bool, maxWaitInSec int) {
+	isExpired := make(chan bool)
+
+	// create a new channel that will receive the latest block headers
+	headers := make(chan *types.Header)
+
+	// call the SubscribeNewHead method with the headers channel
+	sub, err := wssClient.SubscribeNewHead(ctx, headers)
+	if err != nil {
+		log.Panic("Fail to subscribe new head: ", err)
+	}
+
+	// use a select statement to listen for new messages or errors
+	go func() {
+		for {
+			select {
+			case err := <-sub.Err():
+				log.Panic("Error occurs in the subscribtion: ", err)
+			case header := <-headers:
+				// get the full block by passing the header hash to BlockByHash function
+				block, err := wssClient.BlockByHash(ctx, header.Hash())
+				if err != nil {
+					log.Fatal(err)
+				}
+				// fmt.Println(block.Hash().Hex())
+				// fmt.Println(block.Number().Uint64())
+				// fmt.Println(block.Nonce())
+
+				// loop through the transactions in the block and check if any of them matches your transaction hash
+				for _, tx := range block.Transactions() {
+					if tx.Hash().Hex() == txStr {
+						// do something with your transaction
+						retStatus <- true
+					}
+				}
+			case <-isExpired:
+				log.Println("WaitForTxCompletion is expired in", maxWaitInSec, "secs.")
+				retStatus <- false
+			}
+		}
+	}()
+
+	time.Sleep(time.Duration(maxWaitInSec) * time.Second)
+	isExpired <- true
+}
+
+/*
 sepolia faucet: https://www.infura.io/faucet
 - common in Go
   - `log.Println`
@@ -144,6 +198,9 @@ func main() {
 	}
 	if contractErr != nil {
 		log.Panic(contractErr)
+	}
+	if wssDialErr != nil {
+		log.Panic(wssDialErr)
 	}
 
 	// 📌✅ [Start]
@@ -170,30 +227,35 @@ func main() {
 	fmt.Println("Ether balance of", WALLET_ADDR_2, ":", checkWalletBalance(WALLET_ADDR_2))
 
 	// 📌✅ [Transfer ERC20 token (WWKF)]
-	// check balance first
-	// fmt.Println("Before WWKF transection:")
-	// fmt.Println(
-	// 	"WWKF balance of",
-	// 	WALLET_ADDR_1,
-	// 	":",
-	// 	getWwkfBalance(WALLET_ADDR_1),
-	// )
-	// fmt.Println(
-	// 	"WWKF balance of",
-	// 	WALLET_ADDR_2,
-	// 	":",
-	// 	getWwkfBalance(WALLET_ADDR_2),
-	// )
-	// signedTxStr := transferWwkfWithAmount(
-	// 	PRIVATE_KEY_1,
-	// 	WALLET_ADDR_2,
-	// 	int64(5000),
-	// )
-	// fmt.Println("complete transfering WWKF:", signedTxStr)
-	// TODO: wait the transection approved then print balances?
-	// fmt.Println("After WWKF transection:")
-	// fmt.Println("Ether balance of", WALLET_ADDR_1, ":", checkWalletBalance(WALLET_ADDR_1))
-	// fmt.Println("Ether balance of", WALLET_ADDR_2, ":", checkWalletBalance(WALLET_ADDR_2))
+	fmt.Println("- Before WWKF transection:")
+	fmt.Println(
+		"WWKF balance of",
+		WALLET_ADDR_1,
+		":",
+		getWwkfBalance(WALLET_ADDR_1),
+	)
+	fmt.Println(
+		"WWKF balance of",
+		WALLET_ADDR_2,
+		":",
+		getWwkfBalance(WALLET_ADDR_2),
+	)
+	signedTxStr := transferWwkfWithAmount(
+		PRIVATE_KEY_1,
+		WALLET_ADDR_2,
+		int64(5000),
+	)
+	fmt.Println("complete transfering WWKF:", signedTxStr)
+	retStatus := make(chan bool)
+	fmt.Println("wait for the TX getting approved:", signedTxStr)
+	go waitForTxCompletion(signedTxStr, retStatus, 60)
+	txStatus := <-retStatus
+	if !txStatus {
+		fmt.Println("fail to wait for the TX getting approved")
+	}
+	fmt.Println("- After WWKF transection:")
+	fmt.Println("Ether balance of", WALLET_ADDR_1, ":", checkWalletBalance(WALLET_ADDR_1))
+	fmt.Println("Ether balance of", WALLET_ADDR_2, ":", checkWalletBalance(WALLET_ADDR_2))
 	fmt.Println(
 		"WWKF balance of",
 		WALLET_ADDR_1,
