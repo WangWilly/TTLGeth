@@ -1,17 +1,13 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"math/big"
-	"strings"
 
 	"github.com/ethereum/go-ethereum"
+	"github.com/ethereum/go-ethereum/accounts/abi/bind"
 	"github.com/ethereum/go-ethereum/common"
-	"github.com/ethereum/go-ethereum/common/hexutil"
-	"github.com/ethereum/go-ethereum/core/types"
 	"github.com/ethereum/go-ethereum/crypto"
-	"github.com/ethereum/go-ethereum/rpc"
 	"golang.org/x/crypto/sha3"
 )
 
@@ -46,31 +42,13 @@ func contractUtilSuggestGas(byteAddrFrom common.Address, byteTokenAddr common.Ad
 	return gasLimit
 }
 
-func accessTokenBalance(contractAddr string, userAddr string) *big.Int {
-	methodId := hexutil.Encode(contractUtilObtainMethodId("balanceOf(address)"))
-	// %064s: padded with 0 to 64 bytes
-	data := methodId + fmt.Sprintf("%064s", userAddr[2:])
-	client, err := rpc.DialHTTP(W3NET_URL)
+func getWwkfBalance(userAddr string) *big.Int {
+	balance, err := instance.BalanceOf(
+		&bind.CallOpts{},
+		common.HexToAddress(userAddr),
+	)
 	if err != nil {
-		log.Fatal("Fail to dial to W3NET_URL using rpc protocal: ", err)
-	}
-	defer client.Close()
-
-	req := request{contractAddr, data}
-	var resp string
-	if err := client.Call(&resp, "eth_call", req, "latest"); err != nil {
-		log.Fatal("Fail to call web3 API: ", err)
-	}
-
-	// remove leading zero of resp
-	// %064s: the string is padded with 0 to 64 bytes
-	formattedResp := strings.TrimLeft(resp[2:], "0")
-	if len(formattedResp) == 0 {
-		formattedResp = "0"
-	}
-	balance, err := hexutil.DecodeBig("0x" + formattedResp)
-	if err != nil {
-		log.Fatal("Fail to decode 'formattedResp' into 'big.Int': ", err)
+		log.Panic("Fail to access the balance of the WWKF: ", err)
 	}
 	return balance
 }

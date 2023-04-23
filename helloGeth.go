@@ -13,6 +13,8 @@ import (
 	"github.com/ethereum/go-ethereum/crypto"
 	"github.com/ethereum/go-ethereum/ethclient"
 
+	wwkf "ttlGeth/bindings/wwkf"
+
 	_ "github.com/joho/godotenv/autoload"
 )
 
@@ -34,8 +36,9 @@ var (
 // Ethereum network: mainnet, sepolia
 // Available testnets: Sepolia, Goerli, Ropsten, Rinkeby and Kovan
 var (
-	ctx         = context.Background()
-	client, err = ethclient.DialContext(ctx, W3NET_URL)
+	ctx                   = context.Background()
+	client, dialErr       = ethclient.DialContext(ctx, W3NET_URL)
+	instance, contractErr = wwkf.NewWwkf(common.HexToAddress(WWKF_CONTRACT_ADDR), client)
 )
 
 /*
@@ -136,8 +139,11 @@ sepolia faucet: https://www.infura.io/faucet
 */
 func main() {
 	// [Initialization]
-	if err != nil { // check `ethclient.DialContext`
-		log.Println(err)
+	if dialErr != nil {
+		log.Panic(dialErr)
+	}
+	if contractErr != nil {
+		log.Panic(contractErr)
 	}
 
 	// 📌✅ [Start]
@@ -170,13 +176,13 @@ func main() {
 	// 	"WWKF balance of",
 	// 	WALLET_ADDR_1,
 	// 	":",
-	// 	accessTokenBalance(WWKF_CONTRACT_ADDR, WALLET_ADDR_1),
+	// 	getWwkfBalance(WALLET_ADDR_1),
 	// )
 	// fmt.Println(
 	// 	"WWKF balance of",
 	// 	WALLET_ADDR_2,
 	// 	":",
-	// 	accessTokenBalance(WWKF_CONTRACT_ADDR, WALLET_ADDR_2),
+	// 	getWwkfBalance(WALLET_ADDR_2),
 	// )
 	// status, signedTxStr := transferTokenWithAmount(
 	// 	WWKF_CONTRACT_ADDR,
@@ -194,13 +200,13 @@ func main() {
 		"WWKF balance of",
 		WALLET_ADDR_1,
 		":",
-		accessTokenBalance(WWKF_CONTRACT_ADDR, WALLET_ADDR_1),
+		getWwkfBalance(WALLET_ADDR_1),
 	)
 	fmt.Println(
 		"WWKF balance of",
 		WALLET_ADDR_2,
 		":",
-		accessTokenBalance(WWKF_CONTRACT_ADDR, WALLET_ADDR_2),
+		getWwkfBalance(WALLET_ADDR_2),
 	)
 
 }
