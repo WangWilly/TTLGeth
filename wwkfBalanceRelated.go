@@ -11,12 +11,16 @@ import (
 	"golang.org/x/crypto/sha3"
 )
 
+/*
+Deprecated.
+*/
 type request struct {
 	To   string `json:"to"`
 	Data string `json:"data"`
 }
 
 /*
+Deprecated.
 - `byteArr := []byte(stringObj)`
 - `sha3.NewLegacyKeccak256`
 */
@@ -28,6 +32,9 @@ func contractUtilObtainMethodId(strFnSignature string) []byte {
 	return methodId
 }
 
+/*
+Deprecated.
+*/
 func contractUtilSuggestGas(byteAddrFrom common.Address, byteTokenAddr common.Address, data []byte) uint64 {
 	gasLimit, err := client.EstimateGas(ctx, ethereum.CallMsg{
 		From:  byteAddrFrom,
@@ -53,59 +60,44 @@ func getWwkfBalance(userAddr string) *big.Int {
 	return balance
 }
 
-func transferTokenWithAmount(contractAddr string, pkFrom string, addrTo string, tokenAmount int64) (bool, string) {
-	keyPair, err := crypto.HexToECDSA(pkFrom)
+func transferWwkfWithAmount(pkFrom string, addrTo string, tokenAmount int64) string {
+	authedTransector := getAuthedTransector(pkFrom)
+	reply, err := instance.Transfer(
+		authedTransector,
+		common.HexToAddress(addrTo),
+		big.NewInt(tokenAmount),
+	)
 	if err != nil {
-		log.Fatal("Fail to convert pkFrom into ECDSA: ", err)
-		return false, ""
+		log.Panic("Fail to transfer WWKF token: ", err)
 	}
-	byteAddrFrom := crypto.PubkeyToAddress(keyPair.PublicKey)
+	return reply.Hash().Hex()
+}
 
-	byteTokenAddr := common.HexToAddress(contractAddr)
-	byteAddrTo := common.HexToAddress(addrTo)
-	methodId := contractUtilObtainMethodId("transfer(address,uint256)")
-	paddedByteAddrTo := common.LeftPadBytes(byteAddrTo.Bytes(), 32)
-	// fmt.Println(hexutil.Encode(paddedByteAddrTo))
-	bigIntTokenAmount := big.NewInt(tokenAmount)
-	paddedByteTokenAmount := common.LeftPadBytes(bigIntTokenAmount.Bytes(), 32)
-	// fmt.Println(hexutil.Encode(paddedByteTokenAmount))
-
-	nonce, err := client.PendingNonceAt(ctx, byteAddrFrom)
+func getAuthedTransector(pk string) *bind.TransactOpts {
+	keyPair, err := crypto.HexToECDSA(pk)
 	if err != nil {
-		log.Fatal("Fail to pend nonce at pkFrom: ", err)
-		return false, ""
+		log.Panic("Fail to transform pk string into ECDSA: ", err)
 	}
+	byteAddr := crypto.PubkeyToAddress(keyPair.PublicKey)
 
-	ethAmount := big.NewInt(0)
-	gasPrice, err := client.SuggestGasPrice(ctx)
+	nonce, err := client.PendingNonceAt(ctx, byteAddr)
 	if err != nil {
-		log.Fatal("Fail to have suggested gas price: ", err)
+		log.Panic("Fail to pend the nonce: ", err)
 	}
 
-	var data []byte
-	data = append(data, methodId...)
-	data = append(data, paddedByteAddrTo...)
-	data = append(data, paddedByteTokenAmount...)
-	gasLimit := contractUtilSuggestGas(byteAddrFrom, byteTokenAddr, data)
-	// fmt.Println(gasLimit)
-
-	// 👉 to be refactored (`transferEtherWithAmount`)
-	tx := types.NewTransaction(nonce, byteTokenAddr, ethAmount, gasLimit, gasPrice, data)
-	chainId, err := client.NetworkID(ctx)
+	chainID, err := client.ChainID(ctx)
 	if err != nil {
-		log.Fatal("Fail to obtain NetworkID: ", err)
-		return false, ""
-	}
-	signedTx, err := types.SignTx(tx, types.NewEIP155Signer(chainId), keyPair)
-	if err != nil {
-		log.Fatal("Fail to sign transection: ", err)
-		return false, ""
-	}
-	err = client.SendTransaction(ctx, signedTx)
-	if err != nil {
-		log.Fatal("Fail to send transection: ", err)
-		return false, ""
+		log.Panic("Fail to obain the current chainID: ", err)
 	}
 
-	return true, signedTx.Hash().Hex()
+	auth, err := bind.NewKeyedTransactorWithChainID(keyPair, chainID)
+	if err != nil {
+		log.Panic("Fail to create a new keyed transection: ", err)
+	}
+	auth.Nonce = big.NewInt(int64(nonce))
+	auth.Value = big.NewInt(0)          // in wei
+	auth.GasLimit = uint64(3000000)     // in units. TODO: require improvment
+	auth.GasPrice = big.NewInt(1000000) // in wei. TODO: require improvment
+
+	return auth
 }

@@ -184,15 +184,13 @@ func main() {
 	// 	":",
 	// 	getWwkfBalance(WALLET_ADDR_2),
 	// )
-	// status, signedTxStr := transferTokenWithAmount(
-	// 	WWKF_CONTRACT_ADDR,
-	// 	PRIVATE_KEY_2,
-	// 	WALLET_ADDR_1,
-	// 	500000000,
+	// signedTxStr := transferWwkfWithAmount(
+	// 	PRIVATE_KEY_1,
+	// 	WALLET_ADDR_2,
+	// 	int64(5000),
 	// )
-	// if status {
-	// 	fmt.Println("complete transfering WWKF:", signedTxStr)
-	// }
+	// fmt.Println("complete transfering WWKF:", signedTxStr)
+	// TODO: wait the transection approved then print balances?
 	// fmt.Println("After WWKF transection:")
 	// fmt.Println("Ether balance of", WALLET_ADDR_1, ":", checkWalletBalance(WALLET_ADDR_1))
 	// fmt.Println("Ether balance of", WALLET_ADDR_2, ":", checkWalletBalance(WALLET_ADDR_2))
