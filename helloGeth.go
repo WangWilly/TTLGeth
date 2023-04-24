@@ -50,6 +50,7 @@ Access Ethereum network (with Infura help, users don't need to
 maintain a Ethereum node locally) and checkout the latest
 block number.
 */
+//lint:ignore U1000 Ignore unused function temporarily for debugging
 func currentBlock() *big.Int {
 	block, err := client.BlockByNumber(ctx, nil)
 	if err != nil {
@@ -62,6 +63,7 @@ func currentBlock() *big.Int {
 Wallets are composed of three main components; the public key,
 the private key,and the public address.
 */
+//lint:ignore U1000 Ignore unused function temporarily for debugging
 func createWallet() (string, string, string) {
 	keyPair, err := crypto.GenerateKey()
 	if err != nil {

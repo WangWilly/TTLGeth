@@ -14,6 +14,7 @@ import (
 /*
 Deprecated.
 */
+//lint:ignore U1000 Ignore unused function temporarily for debugging
 type request struct {
 	To   string `json:"to"`
 	Data string `json:"data"`
@@ -24,6 +25,7 @@ Deprecated.
 - `byteArr := []byte(stringObj)`
 - `sha3.NewLegacyKeccak256`
 */
+//lint:ignore U1000 Ignore unused function temporarily for debugging
 func contractUtilObtainMethodId(strFnSignature string) []byte {
 	byteFnSignature := []byte(strFnSignature)
 	hash := sha3.NewLegacyKeccak256()
@@ -35,6 +37,7 @@ func contractUtilObtainMethodId(strFnSignature string) []byte {
 /*
 Deprecated.
 */
+//lint:ignore U1000 Ignore unused function temporarily for debugging
 func contractUtilSuggestGas(byteAddrFrom common.Address, byteTokenAddr common.Address, data []byte) uint64 {
 	gasLimit, err := client.EstimateGas(ctx, ethereum.CallMsg{
 		From:  byteAddrFrom,

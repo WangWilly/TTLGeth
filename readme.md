@@ -29,7 +29,11 @@ go run *.go
   - https://github.com/02amanag/SmartContractWithGolang/blob/main/cmd/main.go
 - 👉 [Manage private key](https://goethereumbook.org/en/keystore/)
 - 🔜 https://www.honeybadger.io/blog/golang-go-package-management/
-- 📝 https://github.com/labstack/echo
+- 📝 **https://goethereumbook.org/event-subscribe/**
+  - **https://blog.logrocket.com/rest-api-golang-gin-gorm/**
+  - https://gin-gonic.com/
+  - **https://github.com/labstack/echo**
+  - https://willh.gitbook.io/build-web-application-with-golang-zhtw/03.0/03.2
 
 ## Achievement
 - 🙋‍♂️ Protagonists
