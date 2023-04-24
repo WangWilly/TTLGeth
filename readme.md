@@ -45,6 +45,8 @@ go run *.go
   - [✅](https://sepolia.etherscan.io/tx/0xf26f5deefe13c60eb419e97485ba2d783190bae804d04bc6ff952f30f2d5849f) Complete transfering WWKF token.
   - [✅](https://sepolia.etherscan.io/tx/0x0f313aa1a67826a6d8519043d12e83a60861bbffbee264a4ea93e063b1bff8aa) Complete transfering WWKF token.
   - [✅](https://sepolia.etherscan.io/tx/0x5952cd7f5a5af01882214b170f7289e272fa8da19c75e6bc1ff1eb978066eabe) Complete transfering WWKF token.
+  - [✅](https://sepolia.etherscan.io/tx/0x74da57c57959d4337d10ffdd034d88376a9efba3146437037bb8a911c9d5404a) Complete transfering WWKF token.
+  - [✅](https://sepolia.etherscan.io/tx/0x399f6db082e6951c4b6ae8d4f4522ae0680477f098dd056a1a45ab4eed27a9af) Complete transfering WWKF token.
 
 ## 🌶️ GO cheat sheet
 
@@ -160,7 +162,7 @@ Source: Conversation with Bing, 4/12/2023(1) Networks | ethereum.org. https://et
 (3) Testnet Vs Mainnet in Blockchain - A Complete Guide | Shardeum. https://shardeum.org/blog/testnet-vs-mainnet/ Accessed 4/12/2023.
 
 ### 📖 What's the meaning of a starsign in Golang?
-**A starsign (or asterisk) is a symbol used in Go to indicate pointers or dereferencing.** A **pointer** is a variable that stores the memory address of another variable. **Dereferencing** is the process of accessing the value stored at that memory address². 📌 **For example, if x is a pointer to an integer variable y, then *x is the value of y.**
+**A starsign (or asterisk) is a symbol used in Go to indicate pointers or dereferencing.** A **pointer** is a variable that stores the memory address of another variable. **Dereferencing** is the process of accessing the value stored at that memory address². 📌 **For example, if x is a pointer to an integer variable y, then \*x is the value of y.**
 
 Source: Conversation with Bing, 4/20/2023(1) What does the asterisk do in "Go"? - Stack Overflow. https://stackoverflow.com/questions/3552626/what-does-the-asterisk-do-in-go Accessed 4/20/2023.
 (2) strings package - strings - Go Packages. https://pkg.go.dev/strings Accessed 4/20/2023.

@@ -30,7 +30,6 @@ var (
 	PUBLIC_KEY_2       = os.Getenv("PUBLIC_KEY_2")
 	WALLET_ADDR_2      = os.Getenv("WALLET_HASH_2")
 	WWKF_CONTRACT_ADDR = "0x03378DAa43739f2361FE67175aD6bF2666309748"
-	BUILT_WWKF_PATH    = "./contracts/willywangkaaFirstContract.json"
 	W3NET_URL          = "https://" + NET_BRANCH_NAME + ".infura.io/v3/" + INFURA_PROJECT_ID
 	W3WSS_URL          = "wss://" + NET_BRANCH_NAME + ".infura.io/ws/v3/" + INFURA_PROJECT_ID
 )
@@ -88,11 +87,11 @@ func checkWalletBalance(addr string) *big.Int {
 	return balance
 }
 
-func transferEtherWithAmount(pkFrom string, addrTo string, amountInWei int64) (bool, string) {
+func transferEtherWithAmount(pkFrom string, addrTo string, amountInWei int64) string {
 	// Transform hexdecimal string into byte object (*ecdsa.PrivateKey)
 	keyPair, err := crypto.HexToECDSA(pkFrom)
 	if err != nil {
-		log.Fatal("Fail to recover '*ecdsa.PrivateKey' from the given private key: ", err)
+		log.Panic("Fail to recover '*ecdsa.PrivateKey' from the given private key: ", err)
 	}
 	byteAddrFrom := crypto.PubkeyToAddress(keyPair.PublicKey)
 	byteAddrTo := common.HexToAddress(addrTo)
@@ -100,33 +99,33 @@ func transferEtherWithAmount(pkFrom string, addrTo string, amountInWei int64) (b
 	// nonce: the number of transactions from the address
 	nonce, err := client.PendingNonceAt(ctx, byteAddrFrom)
 	if err != nil {
-		log.Fatal("Fail to pend the 'nonce' at 'addrFrom': ", err)
+		log.Panic("Fail to pend the 'nonce' at 'addrFrom': ", err)
 	}
 
 	amount := big.NewInt(amountInWei)
 	gasLimit := uint64(21000) // 🤔: intrinsic gas too low
 	gas, err := client.SuggestGasPrice(ctx)
 	if err != nil {
-		log.Fatal("Fail to obtain optimal gas price: ", err)
+		log.Panic("Fail to obtain optimal gas price: ", err)
 	}
 
 	// chainId: https://openethereum.github.io/Chain-specification
 	chainId, err := client.NetworkID(ctx)
 	if err != nil {
-		log.Fatal("Fail to obtain current network (", NET_BRANCH_NAME, ") id: ", err)
+		log.Panic("Fail to obtain current network (", NET_BRANCH_NAME, ") id: ", err)
 	}
 
 	transaction := types.NewTransaction(nonce, byteAddrTo, amount, gasLimit, gas, nil)
 	signedTx, err := types.SignTx(transaction, types.NewEIP155Signer(chainId), keyPair)
 	if err != nil {
-		log.Fatal("Fail to sign transection:", err)
+		log.Panic("Fail to sign transection:", err)
 	}
 	err = client.SendTransaction(ctx, signedTx)
 	if err != nil {
-		log.Fatal("Fail to send transection: ", err)
+		log.Panic("Fail to send transection: ", err)
 	}
 
-	return true, signedTx.Hash().Hex()
+	return signedTx.Hash().Hex()
 } // 📌
 
 /*
@@ -211,18 +210,23 @@ func main() {
 	// fmt.Println("addr:", addr, "\npubKey:", pubKey, "\nprivKey:", privKey)
 
 	// 📌✅ [Ethereum transection]
-	// fmt.Println("Before transection:")
-	// fmt.Println("Ether balance of", WALLET_ADDR_1, ":", checkWalletBalance(WALLET_ADDR_1))
-	// fmt.Println("Ether balance of", WALLET_ADDR_2, ":", checkWalletBalance(WALLET_ADDR_2))
-	// status, signedTxStr := transferEtherWithAmount(
-	// 	PRIVATE_KEY_1,
-	// 	WALLET_ADDR_2,
-	// 	100000000000000000,
-	// )
-	// if status {
-	// 	fmt.Println("transaction sent:", signedTxStr)
-	// }
-	// fmt.Println("After transection:")
+	fmt.Println("- Before transection:")
+	fmt.Println("Ether balance of", WALLET_ADDR_1, ":", checkWalletBalance(WALLET_ADDR_1))
+	fmt.Println("Ether balance of", WALLET_ADDR_2, ":", checkWalletBalance(WALLET_ADDR_2))
+	signedTxStr := transferEtherWithAmount(
+		PRIVATE_KEY_1,
+		WALLET_ADDR_2,
+		1000000000,
+	)
+	fmt.Println("complete transfering WWKF:", signedTxStr)
+	retStatus := make(chan bool)
+	fmt.Println("wait for the TX getting approved:", signedTxStr)
+	go waitForTxCompletion(signedTxStr, retStatus, 60)
+	txStatus := <-retStatus
+	if !txStatus {
+		fmt.Println("fail to wait for the TX getting approved")
+	}
+	fmt.Println("- After transection:")
 	fmt.Println("Ether balance of", WALLET_ADDR_1, ":", checkWalletBalance(WALLET_ADDR_1))
 	fmt.Println("Ether balance of", WALLET_ADDR_2, ":", checkWalletBalance(WALLET_ADDR_2))
 
@@ -240,16 +244,16 @@ func main() {
 		":",
 		getWwkfBalance(WALLET_ADDR_2),
 	)
-	signedTxStr := transferWwkfWithAmount(
+	signedTxStr = transferWwkfWithAmount(
 		PRIVATE_KEY_1,
 		WALLET_ADDR_2,
 		int64(5000),
 	)
 	fmt.Println("complete transfering WWKF:", signedTxStr)
-	retStatus := make(chan bool)
+	retStatus = make(chan bool)
 	fmt.Println("wait for the TX getting approved:", signedTxStr)
 	go waitForTxCompletion(signedTxStr, retStatus, 60)
-	txStatus := <-retStatus
+	txStatus = <-retStatus
 	if !txStatus {
 		fmt.Println("fail to wait for the TX getting approved")
 	}
