@@ -9,6 +9,14 @@ npm create vite@latest ttlgeth-frontend -- --template react-ts
 - https://tailwindcss.com/docs/guides/vite
   - https://flaviocopes.com/fix-unknown-at-rule-tailwind/
 
+```ts
+// ttlgeth-frontend/vite.config.ts
+export default defineConfig({
+  plugins: [react()],
+  base: './', // 📌
+})
+```
+
 ## 🤖 Robot summary
 Quick accession of network result.
 
