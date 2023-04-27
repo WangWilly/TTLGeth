@@ -8,6 +8,7 @@ npm create vite@latest ttlgeth-frontend -- --template react-ts
 - https://vitejs.dev/guide/static-deploy.html
 - https://tailwindcss.com/docs/guides/vite
   - https://flaviocopes.com/fix-unknown-at-rule-tailwind/
+  - https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
 
 ## 🤖 Robot summary
 Quick accession of network result.
