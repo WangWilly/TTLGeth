@@ -38,6 +38,8 @@ go run *.go
   - https://github.com/ngseke/ngseke.me/blob/master/.github/workflows/cd.yml
   - https://vitejs.dev/guide/static-deploy.html
   - https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
+  - https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
+  - https://nkaushik.com/nodejs/dependencies-lock-file-not-found/#:~:text=Fix%201%3A%20Remove%20cache%3A
 
 ## Achievement
 - 🙋‍♂️ Protagonists
