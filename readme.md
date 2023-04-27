@@ -213,6 +213,97 @@ Source: Conversation with Bing, 4/20/2023(1) Creating Go Bindings for Ethereum S
 (2) Smart Contract with Golang. Interacting with smart contracts… | by Aman Agarwal | Nerd For Tech | Medium. https://medium.com/nerd-for-tech/smart-contract-with-golang-d208c92848a9 Accessed 4/20/2023.
 (3) GitHub - zupzup/smart-contracts-with-go: A simple example of how to deploy and interact with ETH smart contracts using Go. https://github.com/zupzup/smart-contracts-with-go Accessed 4/20/2023.
 
+### Can i use web3js in frontend, and if so can you give me an example?
+
+Yes, you can use web3js in frontend to connect your web application to Ethereum blockchain and smart contracts. You need to install web3js as a dependency in your project and create an instance of web3 with a provider that connects to an Ethereum node. You can use different providers such as Infura, Alchemy, or your own local node. You also need the contract ABI and address to interact with your smart contract functions¹. Here is an example of a React component that allows users to connect their Metamask wallet and call a contract function:
+
+```javascript
+import React, { useState } from "react";
+import Web3 from "web3";
+import contractABI from "./contractABI.json";
+
+const web3 = new Web3(Web3.givenProvider); // use Metamask provider
+const contractAddress = "0x123456789"; // your contract address
+const contract = new web3.eth.Contract(contractABI, contractAddress); // create contract instance
+
+function App() {
+  const [account, setAccount] = useState(""); // user account address
+  const [value, setValue] = useState(0); // value from contract
+
+  // connect wallet button click handler
+  const connectWallet = async () => {
+    // request access to accounts
+    const accounts = await window.ethereum.request({
+      method: "eth_requestAccounts",
+    });
+    // set the first account as user account
+    setAccount(accounts[0]);
+  };
+
+  // get value button click handler
+  const getValue = async () => {
+    // call the getValue function from contract
+    const result = await contract.methods.getValue().call();
+    // set the result as value state
+    setValue(result);
+  };
+
+  return (
+    <div className="App">
+      <h1>Web3 Example</h1>
+      <p>Account: {account}</p>
+      <p>Value: {value}</p>
+      <button onClick={connectWallet}>Connect Wallet</button>
+      <button onClick={getValue}>Get Value</button>
+    </div>
+  );
+}
+
+export default App;
+```
+
+Source: Conversation with Bing, 4/25/2023(1) Web3.js — Javascript Ethereum API. https://web3js.org/ Accessed 4/25/2023.
+(2) Building a web3 frontend with React - DEV Community. https://dev.to/rounakbanik/building-a-web3-frontend-with-react-340c Accessed 4/25/2023.
+(3) Web3 Development Explained for Frontend Developers | Kong Inc.. https://konghq.com/blog/engineering/web3-basics-for-frontend-developers Accessed 4/25/2023.
+(4) Tutorial: Building a web3 frontend with React - Medium. https://medium.com/scrappy-squirrels/tutorial-building-a-web3-frontend-with-react-e0a87ea3bad Accessed 4/25/2023.
+
+### How the current environment inject to the 'Web3.givenProvider'?
+
+The current environment injects to the Web3.givenProvider property by exposing a global API object that is ERC1193 compliant, such as **`window.ethereum` for Metamask or Mist¹²**. Web3.js detects this object and assigns it to Web3.givenProvider automatically. If the environment does not provide such an object, Web3.givenProvider will be null². The environment can inject the provider by using browser extensions, web3 browsers, or other methods³⁴.
+
+Source: Conversation with Bing, 4/25/2023(1) ethereum - What is the difference between currentprovider and givenprovider in web3.js - Stack Overflow. https://stackoverflow.com/questions/55822581/what-is-the-difference-between-currentprovider-and-givenprovider-in-web3-js Accessed 4/25/2023.
+(2) web3 | API | web3.js. https://docs.web3js.org/api/web3/ Accessed 4/25/2023.
+(3) Difference between Javascript VM vs injected w3 vs web3 provider. https://ethereum.stackexchange.com/questions/40227/difference-between-javascript-vm-vs-injected-w3-vs-web3-provider Accessed 4/25/2023.
+(4) Web3 Providers | DApp World. https://dapp-world.com/smartbook/web3-providers--CWMi Accessed 4/25/2023.
+
+### Can i use web3 with Metamask as provider to subscribe event from a blockchain branch 'sepolia'?
+
+Yes, you can use web3js with Metamask as provider to subscribe to events from a blockchain branch 'sepolia'. You need to install web3js as a dependency in your project and create an instance of web3 with Web3.givenProvider, which will use the provider injected by Metamask¹². You also need to add the sepolia network to your Metamask by using a custom RPC URL that connects to a sepolia node. You can use different services such as Alchemy, Infura, or Chainlist to get a sepolia RPC URL³  . You also need the contract ABI and address to interact with your smart contract events. You can use the web3.eth.Contract.events or web3.eth.subscribe methods to subscribe to specific events or logs from your contract . For example:
+
+```javascript
+import Web3 from "web3";
+import contractABI from "./contractABI.json";
+
+const web3 = new Web3(Web3.givenProvider); // use Metamask provider
+const contractAddress = "0x123456789"; // your contract address
+const contract = new web3.eth.Contract(contractABI, contractAddress); // create contract instance
+
+// subscribe to an event called MyEvent
+contract.events.MyEvent()
+.on("data", function(event){
+    console.log(event); // log the event object
+})
+.on("error", function(error){
+    console.log(error); // log the error
+});
+```
+
+Source: Conversation with Bing, 4/25/2023(1) How to Add Sepolia to Metamask. https://docs.alchemy.com/docs/how-to-add-sepolia-to-metamask Accessed 4/25/2023.
+(2) How to Add the Sepolia Test Network to Your MetaMask Wallet. https://www.alchemy.com/overviews/how-to-add-sepolia-to-metamask Accessed 4/25/2023.
+(3) How to Add Sepolia Testnet to MetaMask | Simple Guide (2023). https://www.datawallet.com/crypto/add-sepolia-to-metamask Accessed 4/25/2023.
+
+
+
 ## 🤖 Further robot summary
 
 ### How do I use web3.js?
