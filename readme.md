@@ -34,6 +34,10 @@ go run *.go
   - https://gin-gonic.com/
   - **https://github.com/labstack/echo**
   - https://willh.gitbook.io/build-web-application-with-golang-zhtw/03.0/03.2
+- GitHub Pages
+  - https://github.com/ngseke/ngseke.me/blob/master/.github/workflows/cd.yml
+  - https://vitejs.dev/guide/static-deploy.html
+  - https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
 
 ## Achievement
 - 🙋‍♂️ Protagonists
