@@ -41,7 +41,7 @@ go run *.go
   - https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
   - https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
   - https://nkaushik.com/nodejs/dependencies-lock-file-not-found/#:~:text=Fix%201%3A%20Remove%20cache%3A
-  - [WWKF VIEWER DEMO](https://youtu.be/AAHxSEEqN7A)
+  - [🎥 WWKF VIEWER DEMO](https://youtu.be/AAHxSEEqN7A)
 
 ## Achievement
 
