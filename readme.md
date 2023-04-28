@@ -2,8 +2,8 @@
 
 Base on the template `.env.template`, fill up all variable and create a file `.env` for all crediential information. Have fun and join the virtual world. 🥷
 
-
 📖 Instruction:
+
 - ✅: Completed goal
 - 👉: Short-term goal
 - 📝: Long-term goal
@@ -12,13 +12,14 @@ Base on the template `.env.template`, fill up all variable and create a file `.e
 - 🔜: Haven't completed but browsed
 - ❌: Abandoned or failed
 
-
 📖 Easy run:
+
 ```
 go run *.go
 ```
 
 📖 Reviews:
+
 - ✅ [Connect ethereum node using Infura](https://blog.logrocket.com/ethereum-development-using-go-ethereum/#connecting-ethereum-node-infura-go)
   - 📖 [Contract migration1](https://trufflesuite.com/docs/truffle/how-to/contracts/run-migrations/)
   - 📖 [Contract migration2](https://betterprogramming.pub/how-to-write-complex-truffle-migrations-86d4b85d7783)
@@ -40,8 +41,10 @@ go run *.go
   - https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
   - https://stackoverflow.com/questions/58139175/running-actions-in-another-directory
   - https://nkaushik.com/nodejs/dependencies-lock-file-not-found/#:~:text=Fix%201%3A%20Remove%20cache%3A
+  - [WWKF VIEWER DEMO](https://youtu.be/AAHxSEEqN7A)
 
 ## Achievement
+
 - 🙋‍♂️ Protagonists
   - Wallet1: `0x29F4E2b19BEBc88F6BD3cf794D1F93af0D76B4E4`
   - Wallet2: `0xaAc4Dd69227C8e6412CB0B0479eF57f6245e7e75`
@@ -61,11 +64,14 @@ go run *.go
 ## 🌶️ GO cheat sheet
 
 📌 **Goroutine**
+
 - https://golangbot.com/channels/
 - https://blog.wu-boy.com/2020/05/understant-golang-context-in-10-minutes/
 
 📌 General usage
+
 - `len()`: `len(v Type) int`
+
 ```Go
 // [string]
 s := "Hello"
@@ -79,27 +85,32 @@ fmt.Println(len(m)) // 👉 2
 ```
 
 📌 Interaction
+
 - `fmt.Print`
 - `fmt.Println`
 - `log.Fatal`
 
-📌 Handle String 
+📌 Handle String
+
 - `strings.TrimLeft`: remove left string.
   - `strings.TrimLeft(resp[2:], "0")`
 
 📌 Handle Web3 Address
+
 - `hexutil.Encode`: encode byte into a string with leading '0x'
 - `hexutil.DecodeBig`: decode string with leading '0x' into a `big.Int`
 - `common.HexToAddress`: transfrom hex string into byte address
 
 📖 Reference
+
 - https://blog.wu-boy.com/2019/04/how-to-load-env-file-in-go/
 
-
 ## 🤖 Robot summary
+
 Quick accession of network result.
 
 ### 🤔 Is there a web3 package in Go?
+
 I found some web search results that might be helpful.
 
 According to the first result¹, **there is a web3 package in Go that is hosted on GitHub and provides various functions and types for interacting with web3 blockchains**. You can use web3 to create and send transactions, query the network and contract state, generate code from ABI files, and more. You can import web3 in your Go code and use its methods.
@@ -115,6 +126,7 @@ Source: Conversation with Bing, 4/20/2023(1) web3 package - github.com/gochain/w
 (3) web3 package - github.com/jaynagpaul/go-web3 - Go Packages. https://pkg.go.dev/github.com/jaynagpaul/go-web3 Accessed 4/20/2023.
 
 ### 🤔 How to obatin Smart contract events?
+
 I found some web search results that might be helpful.
 
 Smart contract events are signals that smart contracts emit when something relevant happens within them based on their code. **For example, a smart contract may emit an event when a token is transferred, a state variable is changed, or an error occurs.** Smart contract events can be used to notify developers and software systems that something meaningful has happened, and **to enable communication between smart contracts and dapps¹²**.
@@ -135,6 +147,7 @@ Source: Conversation with Bing, 4/20/2023(1) How to Listen to Smart Contract Eve
 (6) Blockchain Explained: What are smart contract events and logs?. https://medium.com/web3labs/blockchain-explained-what-are-smart-contract-events-and-logs-bd44f1e99b61 Accessed 4/20/2023.
 
 ### 📖 How to use JSON RPC in Ethereum?
+
 I found some web search results that might be helpful.
 
 According to the first result¹, **JSON RPC is a protocol that allows you to interact with an Ethereum node using HTTP, WebSocket, or IPC.** You can use JSON RPC to send requests and receive responses from the node, such as getting the balance of an account, sending a transaction, or subscribing to events. **You can use various libraries or tools to make JSON RPC calls, such as web3.js, curl, or Postman.**
@@ -150,6 +163,7 @@ Source: Conversation with Bing, 4/20/2023(1) How to Stake on the Goerli ETH Test
 (3) Decoding Decentralization. An Ethereum Blockchain Data Primer… | by Alexander Sack | Coinmonks | Apr, 2023 - Medium. https://medium.com/coinmonks/decoding-decentralization-f3af30068e75 Accessed 4/20/2023.
 
 ### 🤔 How etherscan obtain the history of a contract?
+
 I found some web search results that might be helpful.
 
 According to the first result¹, etherscan does not store all the events and transaction history, but rather indexes them using a custom backend that connects to an Ethereum node and fetches transactions using **JSON RPC**. **Etherscan also uses a separate service to track internal transactions that are not part of the blockchain.**
@@ -165,6 +179,7 @@ Source: Conversation with Bing, 4/20/2023(1) Does Etherscan store all the events
 (3) How to explore all transactions for a given account?. https://ethereum.stackexchange.com/questions/8547/how-to-explore-all-transactions-for-a-given-account Accessed 4/20/2023.
 
 ### 📖 Why Ethereum mainet would not be confused with testnet?
+
 Ethereum mainnet and testnet have different **network IDs** and **chain IDs** that distinguish them from each other. 📌 **For example, the Ethereum mainnet network ID is 1, while the other most commonly used testnets have network IDs of 3, 4, and 42 for Ropsten, Rinkeby, and Kovan, respectively.** Network ID and chain ID are parameters that are used by nodes to identify which network they belong to and which transactions they should validate. Therefore, Ethereum mainnet would not be confused with testnet by nodes or clients that use these parameters correctly.
 
 Source: Conversation with Bing, 4/12/2023(1) Networks | ethereum.org. https://ethereum.org/en/developers/docs/networks/ Accessed 4/12/2023.
@@ -172,6 +187,7 @@ Source: Conversation with Bing, 4/12/2023(1) Networks | ethereum.org. https://et
 (3) Testnet Vs Mainnet in Blockchain - A Complete Guide | Shardeum. https://shardeum.org/blog/testnet-vs-mainnet/ Accessed 4/12/2023.
 
 ### 📖 What's the meaning of a starsign in Golang?
+
 **A starsign (or asterisk) is a symbol used in Go to indicate pointers or dereferencing.** A **pointer** is a variable that stores the memory address of another variable. **Dereferencing** is the process of accessing the value stored at that memory address². 📌 **For example, if x is a pointer to an integer variable y, then \*x is the value of y.**
 
 Source: Conversation with Bing, 4/20/2023(1) What does the asterisk do in "Go"? - Stack Overflow. https://stackoverflow.com/questions/3552626/what-does-the-asterisk-do-in-go Accessed 4/20/2023.
@@ -179,6 +195,7 @@ Source: Conversation with Bing, 4/20/2023(1) What does the asterisk do in "Go"? 
 (3) Go StartsWith(str string) - Stack Overflow. https://stackoverflow.com/questions/12667327/go-startswithstr-string Accessed 4/20/2023.
 
 ### 📖 What's the meaning of Panic in Go?
+
 According to web search results, **panic in Go is a way of handling unexpected or exceptional situations that cause the program to crash**. It is similar to an exception in other languages, but it also **terminates the normal execution flow and prints the error message and stack trace**. You can use the panic() function to deliberately trigger a panic, or it can happen automatically when some specific situation arises, such as an out-of-bounds array access. 📌 **You can also use defer and recover to handle panics gracefully and prevent the program from crashing.** ¹²³⁴
 
 Source: Conversation with Bing, 4/20/2023(1) Panic in Golang - GeeksforGeeks. https://www.geeksforgeeks.org/panic-in-golang/ Accessed 4/20/2023.
@@ -187,6 +204,7 @@ Source: Conversation with Bing, 4/20/2023(1) Panic in Golang - GeeksforGeeks. ht
 (4) Golang panic handing [capture, defer, recover, log]. https://www.golinuxcloud.com/golang-panic/ Accessed 4/20/2023.
 
 ### ❌ How to save byte object in Go?
+
 One way to save a byte object in Go is to use the ioutil.WriteFile function from the standard library¹. This function takes a file name, a byte slice, and a permission mode as arguments and writes the byte slice to the file. You can find an example of how to use this function in this article¹.
 
 Another way to save a byte object in Go is to use the os.WriteFile function from the os package². This function is similar to ioutil.WriteFile but it is not deprecated as of Go 1.16². You can find an example of how to use this function in this answer².
@@ -201,6 +219,7 @@ Source: Conversation with Bing, 4/11/2023(1) go - How to covert a []byte object 
 (4) Save byte[,,] in ScriptableObject - Unity Answers. https://answers.unity.com/questions/817868/save-byte-in-scriptableobject.html Accessed 4/11/2023.
 
 ### ❌ How to track a smart contract using Golang?
+
 However, I found some web search results that might be helpful.
 
 One possible way to track smart contracts using Golang is to create Go bindings for the specific type of contract. Go bindings are generated from the Application Binary Interface (ABI) of the smart contract, which describes how to call its functions and what kind of data you get back. **You can use the abigen tool, which is part of go-ethereum, to generate Go bindings from an ABI JSON file or a Solidity source file².**
@@ -284,7 +303,7 @@ Source: Conversation with Bing, 4/25/2023(1) ethereum - What is the difference b
 
 ### Can i use web3 with Metamask as provider to subscribe event from a blockchain branch 'sepolia'?
 
-Yes, you can use web3js with Metamask as provider to subscribe to events from a blockchain branch 'sepolia'. You need to install web3js as a dependency in your project and create an instance of web3 with Web3.givenProvider, which will use the provider injected by Metamask¹². You also need to add the sepolia network to your Metamask by using a custom RPC URL that connects to a sepolia node. You can use different services such as Alchemy, Infura, or Chainlist to get a sepolia RPC URL³  . You also need the contract ABI and address to interact with your smart contract events. You can use the web3.eth.Contract.events or web3.eth.subscribe methods to subscribe to specific events or logs from your contract . For example:
+Yes, you can use web3js with Metamask as provider to subscribe to events from a blockchain branch 'sepolia'. You need to install web3js as a dependency in your project and create an instance of web3 with Web3.givenProvider, which will use the provider injected by Metamask¹². You also need to add the sepolia network to your Metamask by using a custom RPC URL that connects to a sepolia node. You can use different services such as Alchemy, Infura, or Chainlist to get a sepolia RPC URL³ . You also need the contract ABI and address to interact with your smart contract events. You can use the web3.eth.Contract.events or web3.eth.subscribe methods to subscribe to specific events or logs from your contract . For example:
 
 ```javascript
 import Web3 from "web3";
@@ -295,24 +314,24 @@ const contractAddress = "0x123456789"; // your contract address
 const contract = new web3.eth.Contract(contractABI, contractAddress); // create contract instance
 
 // subscribe to an event called MyEvent
-contract.events.MyEvent()
-.on("data", function(event){
+contract.events
+  .MyEvent()
+  .on("data", function (event) {
     console.log(event); // log the event object
-})
-.on("error", function(error){
+  })
+  .on("error", function (error) {
     console.log(error); // log the error
-});
+  });
 ```
 
 Source: Conversation with Bing, 4/25/2023(1) How to Add Sepolia to Metamask. https://docs.alchemy.com/docs/how-to-add-sepolia-to-metamask Accessed 4/25/2023.
 (2) How to Add the Sepolia Test Network to Your MetaMask Wallet. https://www.alchemy.com/overviews/how-to-add-sepolia-to-metamask Accessed 4/25/2023.
 (3) How to Add Sepolia Testnet to MetaMask | Simple Guide (2023). https://www.datawallet.com/crypto/add-sepolia-to-metamask Accessed 4/25/2023.
 
-
-
 ## 🤖 Further robot summary
 
 ### How do I use web3.js?
+
 I found some web search results that might be helpful.
 
 According to the first result¹, web3.js is a JavaScript library that allows you to interact with an Ethereum node using JSON RPC. You can use web3.js to send transactions, query the state of the network, and access smart contracts. You can install web3.js using npm or yarn and use it in your JavaScript code.
