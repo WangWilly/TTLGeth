@@ -63,7 +63,7 @@ class EventLogs extends Component<Props, State> {
         <p className="text-2xl">WWKF event logs:</p>
         <ul className="text-left">
           {this.state.logs.map((log) => (
-            <li className="rounded-md overflow-auto bg-zinc-400 text-white" key={log.logIndex}>
+            <li className="rounded-md overflow-auto bg-zinc-400 text-white m-2 p-2" key={log.logIndex}>
               {/* display some properties of the log object */}
               {/* <p>Address: {log.address}</p> */}
               <p>LogIndex: {log.logIndex}</p>

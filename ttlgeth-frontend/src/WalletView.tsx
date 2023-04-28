@@ -38,15 +38,15 @@ function WalletView() {
     <>
       <div>
         <p className="text-2xl">Check your WWKF status:</p>
-        <div className="rounded-md overflow-auto bg-zinc-400 text-white">
+        <div className="rounded-md overflow-auto bg-zinc-400 text-white p-2 m-2">
           <p>Account addr: {accountAddr}</p>
           <p>Wwkf balance: {wwkfBalance}</p>
         </div>
-        <div className="shadow-sm bg-slate-500 p-8 rounded-md flex flex-row">
-          <button className="basis-1/2 h-14" onClick={connectWallet}>
+        <div className="shadow-sm bg-slate-500 p-8 rounded-md flex flex-row m-2">
+          <button className="basis-1/2 m-2" onClick={connectWallet}>
             Connect Wallet
           </button>
-          <button className="basis-1/2 h-14" onClick={getWwkfBalance}>
+          <button className="basis-1/2 m-2" onClick={getWwkfBalance}>
             Get Wwkf Balance
           </button>
         </div>
