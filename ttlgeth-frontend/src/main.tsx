@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import WalletView from "./App.tsx";
+import WalletView from "./WalletView.tsx";
 import EventLogs from "./EventLogs.tsx";
 import "./index.css";
 
