@@ -2,30 +2,28 @@ import { useState } from "react";
 import Web3 from "web3";
 import wwkfJson from "./contracts/willywangkaaFirstContract.json";
 import { AbiItem } from "web3-utils";
+import C from "./utils/constants";
 
+// 🤔: siglton method
 const wwkfAbi = wwkfJson as AbiItem[];
 const web3 = new Web3(Web3.givenProvider); // use Metamask provider
-const WWKF_CONTRACT_ADDR = "0x03378DAa43739f2361FE67175aD6bF2666309748"; // TODO: move to constant
-const wwkfInstance = new web3.eth.Contract(wwkfAbi, WWKF_CONTRACT_ADDR);
+const wwkfInstance = new web3.eth.Contract(wwkfAbi, C.WWKF_CONTRACT.ADDR);
 
-declare global {
-  interface Window {
-    ethereum: any;
-  }
-}
-
-function App() {
+function WalletView() {
   const [accountAddr, setAccountAddr] = useState("");
   const [wwkfBalance, setWwkfBalance] = useState(0);
 
   // Click handler of button for connectting wallet
   const connectWallet = async () => {
     // Request access to accounts
-    const accounts = await window.ethereum.request({
+    const accounts = await window.ethereum.request<string[]>({
       method: "eth_requestAccounts",
     });
+    if (accounts == null || accounts == undefined || accounts.length == 0) {
+      throw new Error("No account is obtained.");
+    }
     // Set the first accounts as user accountAddr
-    setAccountAddr(accounts[0]);
+    setAccountAddr((accounts as string[])[0]);
   };
 
   // Click handler of button for getting wwkf balance
@@ -39,17 +37,22 @@ function App() {
   return (
     <>
       <div>
-        <h1>WWKF naive demo</h1>
-        <p>Edit <code>src/App.tsx</code> and save to test HMR</p>
-        <p>Account addr: {accountAddr}</p>
-        <p>Wwkf balance: {wwkfBalance}</p>
-        <div className="card">
-          <button onClick={connectWallet}>Connect Wallet</button>
-          <button onClick={getWwkfBalance}>Get Wwkf Balance</button>
+        <p className="text-2xl">Check your WWKF status:</p>
+        <div className="rounded-md overflow-auto bg-zinc-400 text-white">
+          <p>Account addr: {accountAddr}</p>
+          <p>Wwkf balance: {wwkfBalance}</p>
+        </div>
+        <div className="shadow-sm bg-slate-500 p-8 rounded-md flex flex-row">
+          <button className="basis-1/2 h-14" onClick={connectWallet}>
+            Connect Wallet
+          </button>
+          <button className="basis-1/2 h-14" onClick={getWwkfBalance}>
+            Get Wwkf Balance
+          </button>
         </div>
       </div>
     </>
   );
 }
 
-export default App;
+export default WalletView;
