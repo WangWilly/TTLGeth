@@ -1,13 +1,7 @@
 import { useState } from "react";
-import Web3 from "web3";
-import wwkfJson from "./contracts/willywangkaaFirstContract.json";
-import { AbiItem } from "web3-utils";
-import C from "./utils/constants";
+import { SharedWwkf } from "./utils/sharedWeb3";
 
-// 🤔: siglton method
-const wwkfAbi = wwkfJson as AbiItem[];
-const web3 = new Web3(Web3.givenProvider); // use Metamask provider
-const wwkfInstance = new web3.eth.Contract(wwkfAbi, C.WWKF_CONTRACT.ADDR);
+const wwkfInstance = SharedWwkf.getInstance();
 
 function WalletView() {
   const [accountAddr, setAccountAddr] = useState("");

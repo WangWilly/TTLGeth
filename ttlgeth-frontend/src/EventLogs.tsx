@@ -2,9 +2,8 @@ import { Component } from "react";
 import Web3 from "web3";
 import { Contract } from "web3-eth-contract";
 import { Log } from "web3-core";
-import { AbiItem } from "web3-utils";
 import C from "./utils/constants";
-import wwkfJson from "./contracts/willywangkaaFirstContract.json";
+import { SharedWeb3, SharedWwkf } from "./utils/sharedWeb3";
 
 type Props = {};
 type State = {
@@ -12,10 +11,8 @@ type State = {
   logs: Log[];
 };
 
-// 🤔: siglton method
-const wwkfAbi = wwkfJson as AbiItem[];
-const web3 = new Web3(Web3.givenProvider); // use Metamask provider
-const wwkfInstance = new web3.eth.Contract(wwkfAbi, C.WWKF_CONTRACT.ADDR);
+const web3 = SharedWeb3.getInstance();
+const wwkfInstance = SharedWwkf.getInstance();
 
 class EventLogs extends Component<Props, State> {
   state: State = {
@@ -40,7 +37,7 @@ class EventLogs extends Component<Props, State> {
       {
         fromBlock: C.WWKF_CONTRACT.BEGIN_BLOCK_ID,
         address: wwkfInstance.options.address,
-        // topics: [C.WWKF_CONTRACT.TOPICS.TRANSFER],
+        topics: [C.WWKF_CONTRACT.TOPICS.TRANSFER],
       },
       (error, result) => {
         if (error) {
@@ -60,19 +57,22 @@ class EventLogs extends Component<Props, State> {
   render() {
     return (
       <div>
-        <p className="text-2xl">WWKF event logs:</p>
+        <p className="text-2xl">WWKF event logs of 'Transfer':</p>
         <ul className="text-left">
-          {this.state.logs.map((log) => (
-            <li className="rounded-md overflow-auto bg-zinc-400 text-white m-2 p-2" key={log.logIndex}>
-              {/* display some properties of the log object */}
-              {/* <p>Address: {log.address}</p> */}
-              <p>LogIndex: {log.logIndex}</p>
-              <p>Tx: {log.transactionHash}</p>
-              <p>Data: {log.data}</p>
-              <p>Block Number: {log.blockNumber}</p>
-              {/* <p>Topics: {log.topics.join(",")}</p> */}
-            </li>
-          ))}
+          {this.state.logs.reverse().map((log) => {
+            const txLogIdx = `${log.transactionHash.substring(log.transactionHash.length - 8)}-${log.logIndex}`;
+            const transferedAmount = Web3.utils.toNumber(log.data);
+            return (
+              <li className="rounded-md overflow-auto bg-zinc-400 text-white m-2 p-2" key={txLogIdx}>
+                {/* display some properties of the log object */}
+                <p>Tx-logIdx: {txLogIdx}</p>
+                <p>Block number: {log.blockNumber}</p>
+                <p>Transfered amount: {transferedAmount}</p>
+                <p>From: 0x{log.topics[1].substring(26)}</p>
+                <p>To: 0x{log.topics[2].substring(26)}</p>
+              </li>
+            );
+          })}
         </ul>
       </div>
     );
