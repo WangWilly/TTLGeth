@@ -18,8 +18,10 @@ npm create vite@latest ttlgeth-frontend -- --template react-ts
   - https://www.robinwieruch.de/how-to-use-prettier-vscode/
 - Web3JS
   - https://ethereum.stackexchange.com/questions/2024/how-to-access-the-event-log-by-knowing-the-contract-address-web3
+  - https://ethereum.stackexchange.com/questions/26640/find-topic0-topic1-topic2
 - nit.
   - https://stackoverflow.com/questions/65504958/web3-js-extending-the-window-interface-type-definitions
+  - 📌 https://www.typescripttutorial.net/typescript-tutorial/typescript-inheritance/
 
 ```ts
 // ttlgeth-frontend/vite.config.ts
