@@ -5,7 +5,7 @@ export default {
     ADDR: "0x03378DAa43739f2361FE67175aD6bF2666309748",
     BEGIN_BLOCK_ID: 3296031,
     TOPICS: {
-      TRANSFER: Web3.utils.sha3("Transfer(address,address,uint)") ?? "",
+      TRANSFER: Web3.utils.sha3("Transfer(address,address,uint256)") ?? "",
     },
   },
 };
