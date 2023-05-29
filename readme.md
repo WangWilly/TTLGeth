@@ -28,6 +28,12 @@ go run *.go
 - ✅ [Develop Go with binding of contract](https://goethereumbook.org/en/smart-contract-load/)
   - https://medium.com/nerd-for-tech/smart-contract-with-golang-d208c92848a9
   - https://github.com/02amanag/SmartContractWithGolang/blob/main/cmd/main.go
+- ✅ [Building a REST API with Golang using Gin and Gorm](https://blog.logrocket.com/rest-api-golang-gin-gorm/)
+  - https://davidchan0519.github.io/2019/05/06/gorm-automigrate/
+  - https://github.com/gin-gonic/examples/blob/master/favicon/main.go
+  - https://gin-gonic.com/docs/examples/querystring-param/
+  - https://go.dev/src/math/const.go
+  - https://stackoverflow.com/questions/21532113/golang-converting-string-to-int64
 - 👉 [Manage private key](https://goethereumbook.org/en/keystore/)
 - 🔜 https://www.honeybadger.io/blog/golang-go-package-management/
 - 📝 **https://goethereumbook.org/event-subscribe/**

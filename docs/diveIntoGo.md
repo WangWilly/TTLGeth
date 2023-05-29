@@ -1,5 +1,7 @@
 # Dive into Go
 
+https://go.dev/doc/effective_go
+
 📖 Instruction:
 
 - ✅: Completed goal
