@@ -2,10 +2,11 @@ package main
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"math/big"
+	"net/http"
 	"os"
+	"strconv"
 	"time"
 
 	"github.com/ethereum/go-ethereum/common"
@@ -15,8 +16,11 @@ import (
 	"github.com/ethereum/go-ethereum/ethclient"
 
 	wwkf "ttlGeth/bindings/wwkf"
+	C "ttlGeth/constants/paths"
 
 	_ "github.com/joho/godotenv/autoload"
+
+	"github.com/gin-gonic/gin"
 )
 
 // Cardinal setting
@@ -168,11 +172,13 @@ func waitForTxCompletion(txStr string, retStatus chan<- bool, maxWaitInSec int) 
 					if tx.Hash().Hex() == txStr {
 						// do something with your transaction
 						retStatus <- true
+						return
 					}
 				}
 			case <-isExpired:
 				log.Println("WaitForTxCompletion is expired in", maxWaitInSec, "secs.")
 				retStatus <- false
+				return
 			}
 		}
 	}()
@@ -193,7 +199,7 @@ sepolia faucet: https://www.infura.io/faucet
   - `client.BalanceAt`
 */
 func main() {
-	// [Initialization]
+	// initialization
 	if dialErr != nil {
 		log.Panic(dialErr)
 	}
@@ -204,75 +210,103 @@ func main() {
 		log.Panic(wssDialErr)
 	}
 
-	// 📌✅ [Start]
-	// currentBlock()
+	api := gin.Default()
+	api.SetTrustedProxies(nil)
+	api.StaticFile("/favicon.ico", "./ttlgeth-frontend/public/wwkfIcon.svg")
 
-	// 📌✅ [Create wallet]
-	// addr, pubKey, privKey := createWallet()
-	// fmt.Println("addr:", addr, "\npubKey:", pubKey, "\nprivKey:", privKey)
+	api.GET("/", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"Welcome": "hello geth"})
+	})
 
-	// 📌✅ [Ethereum transection]
-	fmt.Println("- Before transection:")
-	fmt.Println("Ether balance of", WALLET_ADDR_1, ":", checkWalletBalance(WALLET_ADDR_1))
-	fmt.Println("Ether balance of", WALLET_ADDR_2, ":", checkWalletBalance(WALLET_ADDR_2))
-	signedTxStr := transferEtherWithAmount(
-		PRIVATE_KEY_1,
-		WALLET_ADDR_2,
-		1000000000,
-	)
-	fmt.Println("complete transfering WWKF:", signedTxStr)
-	retStatus := make(chan bool)
-	fmt.Println("wait for the TX getting approved:", signedTxStr)
-	go waitForTxCompletion(signedTxStr, retStatus, 60)
-	txStatus := <-retStatus
-	if !txStatus {
-		fmt.Println("fail to wait for the TX getting approved")
-	}
-	fmt.Println("- After transection:")
-	fmt.Println("Ether balance of", WALLET_ADDR_1, ":", checkWalletBalance(WALLET_ADDR_1))
-	fmt.Println("Ether balance of", WALLET_ADDR_2, ":", checkWalletBalance(WALLET_ADDR_2))
+	api.GET(C.P_CHECK_ETH+C.PARAM_WALLETADDR, func(c *gin.Context) {
+		walletAddr := C.GetDefaultAddr(c.Param(C.WALLET_ADDR))
+		c.JSON(http.StatusOK, gin.H{"ethBalance": checkWalletBalance(walletAddr)})
+	})
 
-	// 📌✅ [Transfer ERC20 token (WWKF)]
-	fmt.Println("- Before WWKF transection:")
-	fmt.Println(
-		"WWKF balance of",
-		WALLET_ADDR_1,
-		":",
-		getWwkfBalance(WALLET_ADDR_1),
-	)
-	fmt.Println(
-		"WWKF balance of",
-		WALLET_ADDR_2,
-		":",
-		getWwkfBalance(WALLET_ADDR_2),
-	)
-	signedTxStr = transferWwkfWithAmount(
-		PRIVATE_KEY_1,
-		WALLET_ADDR_2,
-		int64(5000),
-	)
-	fmt.Println("complete transfering WWKF:", signedTxStr)
-	retStatus = make(chan bool)
-	fmt.Println("wait for the TX getting approved:", signedTxStr)
-	go waitForTxCompletion(signedTxStr, retStatus, 60)
-	txStatus = <-retStatus
-	if !txStatus {
-		fmt.Println("fail to wait for the TX getting approved")
-	}
-	fmt.Println("- After WWKF transection:")
-	fmt.Println("Ether balance of", WALLET_ADDR_1, ":", checkWalletBalance(WALLET_ADDR_1))
-	fmt.Println("Ether balance of", WALLET_ADDR_2, ":", checkWalletBalance(WALLET_ADDR_2))
-	fmt.Println(
-		"WWKF balance of",
-		WALLET_ADDR_1,
-		":",
-		getWwkfBalance(WALLET_ADDR_1),
-	)
-	fmt.Println(
-		"WWKF balance of",
-		WALLET_ADDR_2,
-		":",
-		getWwkfBalance(WALLET_ADDR_2),
-	)
+	api.GET(C.P_CHECK_WWKF+C.PARAM_WALLETADDR, func(c *gin.Context) {
+		walletAddr := C.GetDefaultAddr(c.Param(C.WALLET_ADDR))
+		c.JSON(http.StatusOK, gin.H{"wwkfBalance": getWwkfBalance(walletAddr)})
+	})
 
+	api.GET(C.P_TRANSFER_ETH, func(c *gin.Context) {
+		addrFrom := C.GetDefaultAddr(c.Query("addrFrom"))
+		pkFrom := C.GetDefaultPk(addrFrom)
+		addrTo := C.GetDefaultAddr(c.Query("addrTo"))
+		amount, err := strconv.ParseInt(c.DefaultQuery("amount", "1000000000"), 10, 64)
+		if err != nil {
+			errMsg := "Fail to parse amount into a integer: " + err.Error()
+			log.Panic(errMsg)
+			c.JSON(http.StatusMethodNotAllowed, gin.H{"error": errMsg})
+		}
+		prevAddrfromBalance, prevAddrtoBalance := checkWalletBalance(addrFrom), checkWalletBalance(addrTo)
+		signedTxStr := transferEtherWithAmount(pkFrom, addrTo, amount)
+		retStatus := make(chan bool)
+		go waitForTxCompletion(signedTxStr, retStatus, 60)
+		txStatus := <-retStatus
+		if !txStatus {
+			errMsg := "Fail to wait for the TX getting approved"
+			log.Panic(errMsg)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": errMsg})
+		}
+
+		currAddrfromBalance, currAddrtoBalance := checkWalletBalance(addrFrom), checkWalletBalance(addrTo)
+		c.JSON(
+			http.StatusOK,
+			gin.H{
+				"txAddr":                     signedTxStr,
+				"addrfrom":                   addrFrom,
+				"addrto":                     addrTo,
+				"amount":                     amount,
+				"previousAddrfromEthBalance": prevAddrfromBalance,
+				"previousAddrtoEthBalance":   prevAddrtoBalance,
+				"currentAddrfromEthBalance":  currAddrfromBalance,
+				"currentAddrtoEthBalance":    currAddrtoBalance,
+			},
+		)
+	})
+
+	api.GET(C.P_TRANSFER_WWKF, func(c *gin.Context) {
+		addrFrom := C.GetDefaultAddr(c.Query("addrFrom"))
+		pkFrom := C.GetDefaultPk(addrFrom)
+		addrTo := C.GetDefaultAddr(c.Query("addrTo"))
+		amount, err := strconv.ParseInt(c.DefaultQuery("amount", "5000"), 10, 64)
+		if err != nil {
+			errMsg := "Fail to parse amount into a integer: " + err.Error()
+			c.JSON(http.StatusMethodNotAllowed, gin.H{"error": errMsg})
+			log.Panic(errMsg)
+		}
+		prevAddrfromEthBalance, prevAddrtoEthBalance := checkWalletBalance(addrFrom), checkWalletBalance(addrTo)
+		prevAddrfromWwkfBalance, prevAddrtoWwkfBalance := getWwkfBalance(addrFrom), getWwkfBalance(addrTo)
+		signedTxStr := transferWwkfWithAmount(pkFrom, addrTo, amount)
+		retStatus := make(chan bool)
+		go waitForTxCompletion(signedTxStr, retStatus, 60)
+		txStatus := <-retStatus
+		if !txStatus {
+			errMsg := "Fail to wait for the TX getting approved"
+			c.JSON(http.StatusInternalServerError, gin.H{"error": errMsg})
+			log.Panic(errMsg)
+		}
+
+		currAddrfromEthBalance, currAddrtoEthBalance := checkWalletBalance(addrFrom), checkWalletBalance(addrTo)
+		currAddrfromWwkfBalance, currAddrtoWwkfBalance := getWwkfBalance(addrFrom), getWwkfBalance(addrTo)
+		c.JSON(
+			http.StatusOK,
+			gin.H{
+				"txAddr":                      signedTxStr,
+				"addrfrom":                    addrFrom,
+				"addrto":                      addrTo,
+				"wwkfAmount":                  amount,
+				"previousAddrfromWwkfBalance": prevAddrfromWwkfBalance,
+				"previousAddrtoWwkfBalance":   prevAddrtoWwkfBalance,
+				"currentAddrfromWwkfBalance":  currAddrfromWwkfBalance,
+				"currentAddrtoWwkfBalance":    currAddrtoWwkfBalance,
+				"previousAddrfromEthBalance":  prevAddrfromEthBalance,
+				"previousAddrtoEthBalance":    prevAddrtoEthBalance,
+				"currentAddrfromEthBalance":   currAddrfromEthBalance,
+				"currentAddrtoEthBalance":     currAddrtoEthBalance,
+			},
+		)
+	})
+
+	api.Run()
 }
